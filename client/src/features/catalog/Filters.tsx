@@ -12,10 +12,10 @@ const sortOptions = [
 ]
 
 type Props = {
-    filtersData: {brands: string[]; types: string[];}
+    filtersData: { brands: string[]; types: string[]; }
 }
 
-export default function Filters({filtersData: data}: Props) {
+export default function Filters({ filtersData: data }: Props) {
 
     const { orderBy, types, brands } = useAppSelector(state => state.catalog);
     const dispatch = useAppDispatch();

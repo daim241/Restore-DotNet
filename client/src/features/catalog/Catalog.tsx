@@ -17,7 +17,7 @@ export default function Catalog() {
   return (
     <Grid2 container spacing={4}>
       <Grid2 size={3}>
-        <Filters filtersData={filtersData}/>
+        <Filters filtersData={filtersData} />
       </Grid2>
       <Grid2 size={9}>
         {data.items && data.items.length > 0 ? (
@@ -27,7 +27,7 @@ export default function Catalog() {
               metadata={data.pagination}
               onPageChange={(page: number) => {
                 dispatch(setPageNumber(page));
-                window.scrollTo({top: 0, behavior: 'smooth'})
+                window.scrollTo({ top: 0, behavior: 'smooth' })
               }}
             />
           </>

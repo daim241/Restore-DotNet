@@ -9,7 +9,7 @@ export const catalogApi = createApi({
     reducerPath: 'catalogApi',
     baseQuery: baseQueryWithErrorHandling,
     endpoints: (builder) => ({
-        fetchProducts: builder.query<{items: Product[], pagination: Pagination}, ProductParams>({
+        fetchProducts: builder.query<{ items: Product[], pagination: Pagination }, ProductParams>({
             query: (productParams) => {
                 return {
                     url: 'products',
@@ -19,7 +19,7 @@ export const catalogApi = createApi({
             transformResponse: (items: Product[], meta) => {
                 const paginationHeader = meta?.response?.headers.get('Pagination');
                 const pagination = paginationHeader ? JSON.parse(paginationHeader) : null;
-                return {items, pagination}
+                return { items, pagination }
             }
         }),
         fetchProductDetails: builder.query<Product, number>({
