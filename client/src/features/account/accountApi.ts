@@ -1,6 +1,6 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 import { baseQueryWithErrorHandling } from "../../app/api/baseApi";
-import type { User } from "../../app/models/user";
+import type { Address, User } from "../../app/models/user";
 import type { LoginSchema } from "../../app/lib/schemas/loginSchema";
 import { router } from "../../app/routes/Routes";
 import { toast } from "react-toastify";
@@ -18,7 +18,7 @@ export const accountApi = createApi({
                     body: creds
                 }
             },
-            async onQueryStarted(_, {dispatch, queryFulfilled}) {
+            async onQueryStarted(_, { dispatch, queryFulfilled }) {
                 try {
                     await queryFulfilled;
                     dispatch(accountApi.util.invalidateTags(['UserInfo']))
@@ -35,7 +35,7 @@ export const accountApi = createApi({
                     body: creds
                 }
             },
-            async onQueryStarted(_, {queryFulfilled}) {
+            async onQueryStarted(_, { queryFulfilled }) {
                 try {
                     await queryFulfilled;
                     toast.success('Registration Successful - Now you can sign in!');
@@ -55,14 +55,41 @@ export const accountApi = createApi({
                 url: 'account/logout',
                 method: 'POST'
             }),
-            async onQueryStarted(_, {dispatch, queryFulfilled}) {
+            async onQueryStarted(_, { dispatch, queryFulfilled }) {
                 await queryFulfilled;
                 dispatch(accountApi.util.invalidateTags(['UserInfo']));
                 router.navigate('/');
+            }
+        }),
+        fetchAddress: builder.query<Address, void>({
+            query: () => ({
+                url: 'account/address'
+            })
+        }),
+        updateUserAddress: builder.mutation<Address, Address>({
+            query: (address) => ({
+                url: 'account/address',
+                method: 'POST',
+                body: address
+            }),
+            onQueryStarted: async (address, { dispatch, queryFulfilled }) => {
+                const patchResult = dispatch(
+                    accountApi.util.updateQueryData('fetchAddress', undefined, (draft) => {
+                        Object.assign(draft, { ...address })
+                    })
+                );
+
+                try {
+                    await queryFulfilled;
+                } catch (error) {
+                    patchResult.undo();
+                    console.log(error);
+                }
             }
         })
     })
 });
 
-export const {useLoginMutation, useRegisterMutation, useLogoutMutation, 
-    useUserInfoQuery, useLazyUserInfoQuery} = accountApi;
+export const { useLoginMutation, useRegisterMutation, useLogoutMutation,
+    useUserInfoQuery, useLazyUserInfoQuery, useFetchAddressQuery, 
+    useUpdateUserAddressMutation } = accountApi;
