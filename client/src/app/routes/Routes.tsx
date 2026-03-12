@@ -13,27 +13,33 @@ import LoginForm from "../../features/account/LoginForm";
 import RegisterForm from "../../features/account/RegisterForm";
 import RequiredAuth from "./RequiredAuth";
 import CheckoutSuccess from "../../features/checkout/CheckoutSuccess";
+import OrderPage from "../../features/orders/OrderPage";
+import OrderDetailedPage from "../../features/orders/OrderDetailedPage";
 
 export const router = createBrowserRouter([
     {
         path: '/',
         element: <App />,
         children: [
-            {element: <RequiredAuth />, children: [
-                {path: 'checkout', element: <CheckoutPage />},
-                {path: 'checkout/success', element: <CheckoutSuccess />},
-            ]},
-            {path: '', element: <HomePage />},
-            {path: 'catalog', element: <Catalog />},
-            {path: 'catalog/:id', element: <ProductDetails />},
-            {path: 'about', element: <AboutPage />},
-            {path: 'contact', element: <ContactPage />},
-            {path: 'basket', element: <BasketPage />},
-            {path: 'server-error', element: <ServerError />},
-            {path: 'login', element: <LoginForm />},
-            {path: 'register', element: <RegisterForm />},
-            {path: 'not-found', element: <NotFound />},
-            {path: '*', element: <Navigate replace to='/not-found'/>}
-        ] 
+            {
+                element: <RequiredAuth />, children: [
+                    { path: 'checkout', element: <CheckoutPage /> },
+                    { path: 'checkout/success', element: <CheckoutSuccess /> },
+                    { path: 'orders', element: <OrderPage /> },
+                    { path: 'orders/:id', element: <OrderDetailedPage /> },
+                ]
+            },
+            { path: '', element: <HomePage /> },
+            { path: 'catalog', element: <Catalog /> },
+            { path: 'catalog/:id', element: <ProductDetails /> },
+            { path: 'about', element: <AboutPage /> },
+            { path: 'contact', element: <ContactPage /> },
+            { path: 'basket', element: <BasketPage /> },
+            { path: 'server-error', element: <ServerError /> },
+            { path: 'login', element: <LoginForm /> },
+            { path: 'register', element: <RegisterForm /> },
+            { path: 'not-found', element: <NotFound /> },
+            { path: '*', element: <Navigate replace to='/not-found' /> }
+        ]
     }
 ])
